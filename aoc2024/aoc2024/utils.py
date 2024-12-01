@@ -1,23 +1,28 @@
 import requests
 import os
+from pathlib import Path
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
+_CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-def _download_input(day: int):
-    with open(f'{current_dir}/.cookie', 'r') as file:
+def _in_file(day: int) -> str:
+    Path(f'{_CURRENT_DIR}/day{day}').mkdir(parents=True, exist_ok=True)
+    return f'{_CURRENT_DIR}/day{day}/in_{day}.txt'
+
+def _download_input(day: int) -> str:
+    with open(f'{_CURRENT_DIR}/.cookie', 'r') as file:
         cookie = file.read().strip()
 
     url = f'https://adventofcode.com/2024/day/{day}/input'
     headers = {'Cookie': cookie}
     response = requests.get(url, headers=headers)
 
-    with open(f'in_{day}.txt', 'w') as file:
+    with open(_in_file(day), 'w') as file:
         file.write(response.text)
     return response.text
 
-def get_input(day: int):
+def get_input(day: int) -> str:
     try:
-        with open(f'in_{day}.txt', 'r') as file:
+        with open(_in_file(day), 'r') as file:
             return file.read()
     except FileNotFoundError:
         return _download_input(day)
