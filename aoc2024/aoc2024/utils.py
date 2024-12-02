@@ -5,8 +5,7 @@ from pathlib import Path
 _CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def _in_file(day: int) -> str:
-    Path(f'{_CURRENT_DIR}/day{day}').mkdir(parents=True, exist_ok=True)
-    return f'{_CURRENT_DIR}/day{day}/in_{day}.txt'
+    return f'{_CURRENT_DIR}/days/in_{day}.txt'
 
 def _download_input(day: int) -> str:
     with open(f'{_CURRENT_DIR}/.cookie', 'r') as file:
